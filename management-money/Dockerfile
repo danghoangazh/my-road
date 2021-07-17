@@ -4,16 +4,11 @@
 FROM node:10-alpine as builder
 
 WORKDIR /usr/src/app
-COPY . ./
+COPY . .
 RUN npm install
-RUN ng build
+RUN npm run ng build --prod
 
 # Stage 2 - Deploy with NGNIX
-FROM nginx:1.15.2-alpine
+FROM nginx:alpine
 
-COPY --from=builder /usr/src/app/dist/angular-app /var/www
-COPY nginx.conf /etc/nginx/nginx.conf
-
-EXPOSE 3000
-
-ENTRYPOINT ["nginx","-g","daemon off;"]
+COPY --from=node /app/dist/management-money /usr/share/nginx/html
