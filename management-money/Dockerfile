@@ -6,10 +6,13 @@ FROM node:latest as node
 WORKDIR /usr/local/app
 
 # Add the source code to app
-COPY . .
+COPY package.json /app
 # Install all the dependencies
 RUN npm install
-RUN node_modules/.bin/ng build --prod
+
+COPY . /app
+
+RUN npm run build --prod
 
 # stage 2
 FROM  nginx:latest
