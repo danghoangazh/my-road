@@ -9,7 +9,7 @@ WORKDIR /usr/local/app
 COPY . .
 # Install all the dependencies
 RUN npm install
-RUN ng build --prod
+RUN node_modules/.bin/ng build --prod
 
 # stage 2
 FROM  nginx:latest
